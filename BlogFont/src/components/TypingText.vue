@@ -1,6 +1,7 @@
 <template>
     <div>
         <span>{{ displayText }}</span>
+        <span class="blink">|</span>
     </div>
 </template>
 
@@ -9,10 +10,10 @@ import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 
 const fullTexts = ref([
-    "你想活出怎样的人生？   ",
-    "方圆天地，皆在此间   ",
-    "煮酒论英雄   ",
-    "一起感受Coding的乐趣   "
+    "你想活出怎样的人生 ?",
+    "方圆天地，皆在此间 ..",
+    "煮酒论英雄 ..",
+    "一起感受Coding的乐趣吧 !"
 ]);
 
 //显示
@@ -51,5 +52,18 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* 你的CSS样式 */
+.blink{
+    animation:blink 0.333s infinite;
+}
+@keyframes blink{
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
 </style>
