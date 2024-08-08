@@ -1,7 +1,9 @@
 <template>
-    <div>
-        <span>{{ displayText }}</span>
-        <span class="blink">|</span>
+    <div id="TypingTextContainer">
+        <div id="TypingText">
+            <span>{{ displayText }}</span>
+            <span class="blink">|</span>
+        </div>
     </div>
 </template>
 
@@ -10,10 +12,10 @@ import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 
 const fullTexts = ref([
+    "你好, 新世界 ..",
+    "上决浮云, 下绝地纪; 截云断岳, 剑出山倾 ..",
     "你想活出怎样的人生 ?",
-    "方圆天地，皆在此间 ..",
-    "煮酒论英雄 ..",
-    "一起感受Coding的乐趣吧 !"
+    "感受Coding带来的创造的乐趣吧 !",
 ]);
 
 //显示
@@ -23,7 +25,7 @@ const currentTextIndex = ref(0);
 //进度
 const currentProgress = ref(0);
 //速度-----每秒显示的字符数
-const speed = 3; 
+const speed = 4;
 // 定时器ID
 let intervalId;
 
@@ -52,18 +54,38 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.blink{
-    animation:blink 0.333s infinite;
+#TypingTextContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    width:100vw;
+    font-size: 40px;
 }
-@keyframes blink{
+#TypingText {
+    position: relative;
+    /* 为动画元素定位 */
+    top: auto;
+    /* 移除top属性，因为我们使用Flexbox居中 */
+    animation: none;
+    /* 确保没有其他动画影响 */
+}
+.blink {
+    animation: blink 0.25s infinite;
+}
+@keyframes blink {
     0% {
-        opacity:1;
+        opacity: 1;
     }
+
     50% {
-        opacity:0;
+        opacity: 0;
     }
+
     100% {
-        opacity:1;
+        opacity: 1;
     }
 }
+
+
 </style>

@@ -1,23 +1,45 @@
 <script setup>
-import Head from './components/MyHead.vue'
-import TypingText from './components/TypingText.vue'
+import MyHead from './components/MyHead.vue'
+import TypingText from './components/Home.vue'
+import MessageBoard from './components/MessageBoard.vue'
 </script>
 
 <template>
   <!-- <Head id="h"></Head> -->
-  <div>
-    <TypingText />
+  <img id="background" src="../public/Pictures/动漫背景2.jpg">
+  <div id="app">
+    <MyHead />
+    <router-view />
   </div>
-  <main>
-  </main>
-  <footer>
-  </footer>
+
 </template>
 
 
 
 <style>
-#h {
-  border: 1px solid red;
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: cursive;
+}
+a {
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+}
+
+a:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+#background {
+  width:100%;
+    height:100%;
+    top:0;
+    opacity: 0.80;
+    z-index: -1;
+    position: fixed;
 }
 </style>
