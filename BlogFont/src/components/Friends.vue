@@ -45,7 +45,7 @@ onMounted(async () => {
 })
 </script>
 
-<style>
+<style scope>
 
 #friends {
     height: 100vh;
@@ -75,20 +75,21 @@ h2 {
 .aaa {
     width: 100%;
     height: 320px;
+    border-radius: 20px;
 }
 
 .name {
     position: absolute;
     top: 100%;
-    /* start from the bottom of the image */
     left: 50%;
     transform: translate(-50%, -50%);
     color: #fff;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     opacity: 0;
     transition: top 0.5s, opacity 0.5s;
     /* animate top and opacity */
+    border-radius: 20px;
 }
 
 img {
@@ -105,7 +106,8 @@ a {
 
 a:hover .name {
     top: 50%;
-    opacity: 1;
+    opacity: 1;   
+    border-radius: 20px;
 }
 
 a:hover::after {
@@ -115,7 +117,7 @@ a:hover::after {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
     z-index: -1;
 }
 

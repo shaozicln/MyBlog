@@ -22,24 +22,13 @@ import MessageBoard from './components/MessageBoard.vue'
   margin: 0px;
   font-family: cursive;
 }
-a {
-  text-decoration: none;
-  border: none;
-  box-shadow: none;
-}
-
-a:focus {
-  outline: none;
-  border: none;
-  box-shadow: none;
-}
 
 #background {
-  width:100%;
-    height:100%;
-    top:0;
-    opacity: 0.80;
-    z-index: -1;
-    position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  opacity: 0.80;
+  z-index: -1;
+  position: fixed;
 }
 </style>

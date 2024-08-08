@@ -23,7 +23,7 @@ const navItems = [
     { to: '/', text: '首页' },
     { to: '/message-board', text: '留言/友链' },
     { to: '/articles', text: '文章' },
-    { to: '/sort', text: '归档' },
+    { to: '/sort', text: '数据' },
     { to: '/back', text: '管理'}
 ]
 </script>
