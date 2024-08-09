@@ -5,7 +5,7 @@
                 @click="scrollToCategory(index)">
                 <div class="category-content">
                     <img :src="'../Public/Pictures/' + category.Img" alt="图片丢失了!">
-                    <span class="category-name">{{ category.Name }}</span>
+                    <span class="category-name">{{ category.Name }} ({{ getArticleCounts()[category.Name] }})</span>
                 </div>
             </div>
         </div>
@@ -18,7 +18,6 @@
                             <img :src="'../Public/Pictures/' + article.Img" alt="文章图片丢失了!" id="Aimg">
                             <span class="article-name">{{ article.Title }}</span>
                         </div>
-
                     </article>
                 </div>
             </div>
@@ -29,20 +28,34 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-
 const categories = ref([]);
 
 // 获取分类和文章数据
+// 在fetchCategories函数中添加文章数量统计
 const fetchCategories = async () => {
     try {
         const response = await fetch('http://127.0.0.1:8081/categories-with-articles');
         const data = await response.json();
         categories.value = data.data;
+
+        // 文章数量统计
+        const articleCounts = {};
+        data.data.forEach(category => {
+            articleCounts[category.Name] = category.Articles.length;
+        });
+        localStorage.setItem('articleCounts', JSON.stringify(articleCounts));
+
         console.log(data.data);
 
     } catch (error) {
         console.error('Failed to fetch categories:', error);
     }
+};
+
+// 添加一个函数来获取存储的文章数量统计
+const getArticleCounts = () => {
+    const articleCounts = localStorage.getItem('articleCounts');
+    return articleCounts ? JSON.parse(articleCounts) : {};
 };
 
 // 滚动到特定分类的方法

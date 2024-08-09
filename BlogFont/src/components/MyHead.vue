@@ -5,10 +5,7 @@
                 @click="activeIndex = index">
                 <router-link :to="item.to">{{ item.text }}</router-link>
             </li>
-            <li class="search-item">
-                <input type="text" placeholder="搜索文章..." v-model="searchQuery" />
-                <button @click="performSearch"><i class="iconfont icon-sousuo"></i></button>
-            </li>
+            
         </ul>
     </div>
 </template>
@@ -24,7 +21,8 @@ const navItems = [
     { to: '/message-board', text: '留言/友链' },
     { to: '/articles', text: '文章' },
     { to: '/sort', text: '数据' },
-    { to: '/back', text: '管理'}
+    { to: '/back', text: '管理' },
+    { to: '/search', text: '搜索一下'}
 ]
 </script>
 
@@ -39,6 +37,8 @@ const navItems = [
     padding: 1em;
     text-align: center;
     transition: all 0.3s;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .nav-bar:hover {
@@ -77,17 +77,4 @@ const navItems = [
     margin-right: 0;
 }
 
-.search-item {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-}
-
-.search-item input {
-    margin-right: 5px;
-}
-
-.icon-sousuo {
-    background-color: rgba(255, 255, 255, 0) !important;
-}
 </style>

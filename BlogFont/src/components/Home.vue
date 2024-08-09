@@ -3,6 +3,9 @@
         <div id="TypingText">
             <span>{{ displayText }}</span>
             <span class="blink">|</span>
+            <div class="welcome-container">
+                <h3>----------Welcome----------</h3>
+            </div>
         </div>
     </div>
 </template>
@@ -12,7 +15,7 @@ import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 
 const fullTexts = ref([
-    "你好, 新世界 ..",
+    "你好, 新朋友 ..",
     "上决浮云, 下绝地纪; 截云断岳, 剑出山倾 ..",
     "你想活出怎样的人生 ?",
     "感受Coding带来的创造的乐趣吧 !",
@@ -54,14 +57,25 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.welcome-container {
+  position: fixed;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-family: "楷体";
+}
+
+
 #TypingTextContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 60vh;
-    width:100vw;
+    height: 70vh;
+    width: 100vw;
     font-size: 40px;
 }
+
 #TypingText {
     position: relative;
     /* 为动画元素定位 */
@@ -70,9 +84,11 @@ onUnmounted(() => {
     animation: none;
     /* 确保没有其他动画影响 */
 }
+
 .blink {
     animation: blink 0.25s infinite;
 }
+
 @keyframes blink {
     0% {
         opacity: 1;
@@ -86,6 +102,4 @@ onUnmounted(() => {
         opacity: 1;
     }
 }
-
-
 </style>

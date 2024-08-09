@@ -133,9 +133,6 @@ dialog {
     /* vertically align the container */
 }
 
-
-
-
 #tit {
     text-align: center;
     margin-bottom: 20px;

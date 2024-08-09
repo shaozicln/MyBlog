@@ -6,6 +6,7 @@ import Articles from './components/Articles.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
 import Back from './components/Back.vue'
+import Search from './components/Search.vue'
 
 const routes = [
     {
@@ -42,6 +43,11 @@ const routes = [
         path: '/back',
         name: 'Back',
         component:Back
+    },
+    {
+        path: '/search',
+        name: 'Search',
+        component:Search
     },
 ]
 
