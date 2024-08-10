@@ -3,9 +3,9 @@
         <div id="TypingText">
             <span>{{ displayText }}</span>
             <span class="blink">|</span>
-            <div class="welcome-container">
-                <h3>----------Welcome----------</h3>
-            </div>
+        </div>
+        <div class="welcome-container">
+            <h3>----------Welcome----------</h3>
         </div>
     </div>
 </template>
@@ -58,12 +58,12 @@ onUnmounted(() => {
 
 <style scoped>
 .welcome-container {
-  position: fixed;
-  top: 53%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20px;
-  font-family: "楷体";
+    position: absolute;
+    top: 72%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-family: "楷体";
 }
 
 
@@ -71,7 +71,8 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 70vh;
+    flex-direction: column;
+    height: 100vh;
     width: 100vw;
     font-size: 40px;
 }

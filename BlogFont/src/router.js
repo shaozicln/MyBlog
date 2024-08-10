@@ -7,6 +7,8 @@ import Login from './components/Login.vue'
 import Register from './components/Register.vue'
 import Back from './components/Back.vue'
 import Search from './components/Search.vue'
+import Feedback from './components/Feedback.vue'
+import Author from './components/Author.vue'
 
 const routes = [
     {
@@ -40,14 +42,24 @@ const routes = [
         component:Register
     },
     {
+        path: '/search',
+        name: 'Search',
+        component:Search
+    },
+    {
         path: '/back',
         name: 'Back',
         component:Back
     },
     {
-        path: '/search',
-        name: 'Search',
-        component:Search
+        path: '/feedback',
+        name: 'Feedback',
+        component:Feedback
+    },
+    {
+        path: '/author',
+        name: 'Author',
+        component:Author
     },
 ]
 

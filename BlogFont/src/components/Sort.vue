@@ -197,8 +197,8 @@ function changeChartType() {
     top: 120px;
     left: 20px;
     border-radius: 20px;
-    width: 150px;
-    height: 30px;
+    width: 170px;
+    height: 40px;
     background-color: rgba(97, 138, 184, 0.684);
     font-size: 17px;
     z-index: 1;

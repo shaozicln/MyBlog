@@ -13,14 +13,13 @@
             <div v-if="searchResultVisible">
                 <div v-if="titles.length === 0 && contents.length === 0" class="send">
                     <p>什么都没查询到捏 QAQ </p>
-                    <p>想看相关内容? 向作者反馈! </p>
-                    <i class="iconfont icon-xiangyou"></i>
-                    <button>点我私信作者</button>
+                    <p>想看相关内容? 点击导航栏"反馈"! </p>
+                    <router-link :to="{ path: '/back' }"><button class="send" @click.prevent="removeDarkBackgroundSecond($router)">点我私信作者</button></router-link>
                 </div>
                 <div v-else class="result" v-if="searchResultVisible">
                     <h3>标题搜索结果</h3>
                     <ul v-for="title in titles" :key="title.Id">
-                        <li>
+                        <li> 
                             {{ title.Title }}
                         </li>
                     </ul>
@@ -39,6 +38,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+const $router = useRouter()
 
 const searchInput = ref(null)
 const searchQuery = ref('')
@@ -62,6 +63,17 @@ const removeDarkBackground = () => {
     searchHeight.value = '88.5vh'
     isFocused.value = false
     searchResultVisible.value = false
+}
+
+const removeDarkBackgroundSecond = ($router) => {
+    searchBackground.value = 'transparent'
+    searchPosition.value = 'relative'
+    searchHeight.value = '88.5vh'
+    isFocused.value = false
+    searchResultVisible.value = false
+    if (confirm('即将跳转界面')) {
+    $router.push({ path: '/back' })
+  }
 }
 
 const restoreDarkBackground = () => {

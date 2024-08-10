@@ -8,6 +8,7 @@
                     <option v-for="path in avatarPaths" :key="path" :value="path">{{ path }}</option>
                 </select><br>
                 <input v-model="username" placeholder="请输入用户名" type="text" name="username" id="username"><br>
+                <input v-model="newEmail" placeholder="请输入邮箱" type="password" name="email" id="email"><br>
                 <input v-model="password" placeholder="请输入密码" type="password" name="password" id="password"><br>
             </form>
             <button id="bs" @click="createUser"class="button">注册</button>
@@ -24,6 +25,7 @@
 import { ref } from 'vue';
 
 const username = ref('');
+const email = ref('');
 const password = ref('');
 const roleQx = ref('B');
 const avatarPath = ref('')
@@ -45,6 +47,7 @@ const createUser = async () => {
         },
         body: JSON.stringify({
             Username: username.value,
+            Email: email.value,
             Password: password.value,
             RoleQx: roleQx.value,
             Avatar: avatarPath.value,
@@ -66,11 +69,11 @@ const createUser = async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: 100vh;
 }
 
 #con {
-    padding-top: 25px;
+    padding-top: 50px;
     padding-bottom: 25px;
     width: 25vw;
     border: 1px solid #ddd;

@@ -2,10 +2,10 @@
     <div class="nav-bar">
         <ul>
             <li v-for="(item, index) in navItems" :key="index" :class="{ active: activeIndex === index }"
-                @click="activeIndex = index">
+                @click="activeIndex = index" >
                 <router-link :to="item.to">{{ item.text }}</router-link>
             </li>
-            
+
         </ul>
     </div>
 </template>
@@ -15,24 +15,36 @@ import { ref } from 'vue'
 
 const activeIndex = ref(0)
 
+const username = localStorage.getItem("username");
+const email = localStorage.getItem("email");
+const password = localStorage.getItem("password");
+let userType = "";
+if (username === "CLN" && email === "changbingmushao@qq.com" && password === "250420cln") {
+  console.log("用户状态:管理员")
+  userType = "管理"
+} else {
+  console.log("用户状态:非管理员")
+  userType = "反馈"
+}
+
 const navItems = [
-    { to: '/login', text: 'ShaoのBlog' },
-    { to: '/', text: '首页' },
-    { to: '/message-board', text: '留言/友链' },
-    { to: '/articles', text: '文章' },
-    { to: '/sort', text: '数据' },
-    { to: '/back', text: '管理' },
-    { to: '/search', text: '搜索一下'}
+  { to: '/login', text: 'ShaoのBlog' },
+  { to: '/', text: '首页' },
+  { to: '/message-board', text: '留言/友链' },
+  { to: '/articles', text: '文章' },
+  { to: '/sort', text: '数据' },
+  { to: userType === "管理" ? '/back' : '/Feedback', text: userType },
+  { to: '/search', text: '搜索一下' }
 ]
 </script>
 
 <style scoped>
-*{
+* {
     font-size: 30px;
 }
 
 .nav-bar {
-    background-color: rgba(160,191,228, 0.566);
+    background-color: rgba(160, 191, 228, 0.566);
     color: #000000;
     padding: 1em;
     text-align: center;
@@ -76,5 +88,4 @@ const navItems = [
 .nav-bar li:last-child {
     margin-right: 0;
 }
-
 </style>
