@@ -97,14 +97,14 @@ const check = async () => {
             .then((data) => {
                 if (data.message === "登录成功") {
                     alert("登录成功，点击确认进入");
-                    // var userId = data.id;
+                    var userId = data.id;
                     // var userQx = data.qx;
                     var username = data.username;
                     var email = data.email;
                     var password = data.password;
                     // var avatar = data.avatar;
                     // localStorage.setItem("avatar", avatar);
-                    // localStorage.setItem("userId", userId);
+                    localStorage.setItem("userId", userId);
                     localStorage.setItem("username", username);
                     localStorage.setItem("email", email);
                     localStorage.setItem("password", password);

@@ -468,13 +468,16 @@ func main() {
 
 	//...友链网址...
 	r.GET("/friendsWeb", func(c *gin.Context) {
+		id := c.Query("id")
 		name := c.Query("name")
 		web := c.Query("web")
 		var friends []Friend
 		if name != "" {
-			db.Where("name LIKE ?", "%"+name+"%").Find(&friends)
+			db.Where("Name LIKE ?", "%"+name+"%").Find(&friends)
 		} else if web != "" {
-			db.Where("web = ?", web).Find(&friends)
+			db.Where("Web = ?", web).Find(&friends)
+		} else if id != "" {
+			db.Where("Id = ?", id).Find(&friends)
 		} else {
 			db.Find(&friends)
 		}
@@ -530,6 +533,7 @@ func main() {
 
 	//...友链申请...
 	r.GET("/application", func(c *gin.Context) {
+		id := c.Query("id")
 		username := c.Query("username")
 		web := c.Query("web")
 		var applications []Application
@@ -537,6 +541,8 @@ func main() {
 			db.Where("name LIKE ?", "%"+username+"%").Find(&applications)
 		} else if web != "" {
 			db.Where("web = ?", web).Find(&applications)
+		} else if id != "" {
+			db.Where("Id = ?", id).Find(&applications)
 		} else {
 			db.Find(&applications)
 		}

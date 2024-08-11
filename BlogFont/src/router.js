@@ -9,6 +9,10 @@ import Back from './components/Back.vue'
 import Search from './components/Search.vue'
 import Feedback from './components/Feedback.vue'
 import Author from './components/Author.vue'
+import AuthorBack from './components/AuthorBack.vue'
+import Advice from './components/Advice.vue'
+import Application from './components/Application.vue'
+import ArticlesManage from './components/ArticlesManage.vue'
 
 const routes = [
     {
@@ -60,6 +64,26 @@ const routes = [
         path: '/author',
         name: 'Author',
         component:Author
+    },
+    {
+        path: '/author-back',
+        name: 'AuthorBack',
+        component:AuthorBack
+    },
+    {
+        path: '/advice',
+        name: 'Advice',
+        component:Advice
+    },
+    {
+        path: '/application',
+        name: 'Application',
+        component:Application
+    },
+    {
+        path: '/articles-manage',
+        name: 'ArticlesManage',
+        component: ArticlesManage
     },
 ]
 

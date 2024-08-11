@@ -1,20 +1,19 @@
 <template>
-    <div class="message-board">
-        <div class="send-box">
-            <input type="text" v-model="message" placeholder="你好呀,放个留言 ?" />
-            <button @click="sendMessage"><i class="iconfont icon-send-line"></i></button>
-        </div>
-        <div class="message-list">
-            <ul>
-                <li v-for="(msg, index) in displayMessages" :key="index"
-                    :style="{ top: `${msg.top}px`, left: `${msg.left}px` }"
-                    :class="{ 'sending': sendingIndex === index }">
-                    {{ msg.text }}
-                </li>
-            </ul>
-        </div>
+  <div class="message-board">
+    <div class="send-box">
+      <input type="text" v-model="message" placeholder="你好呀,放个留言 ?" />
+      <button @click="sendMessage"><i class="iconfont icon-send-line"></i></button>
     </div>
-    <Friends />
+    <div class="message-list">
+      <ul>
+        <li v-for="(msg, index) in displayMessages" :key="index" :style="{ top: `${msg.top}px`, left: `${msg.left}px` }"
+          :class="{ 'sending': sendingIndex === index }">
+          {{ msg.text }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <Friends />
 </template>
 
 <script setup>
@@ -83,10 +82,10 @@ const getMessages = async () => {
     })
     const data = await response.json()
     messages.value = data.data.map(item => item.Content)
-    
+
     // 随机选取 15 条留言
     const randomMessages = messages.value.sort(() => Math.random() - 0.5).slice(0, 13)
-    
+
     displayMessages.value = randomMessages.map((msg, index) => {
       return {
         text: msg,
@@ -101,6 +100,20 @@ const getMessages = async () => {
 
 // 发送留言
 const sendMessage = async () => {
+  console.log(message.value.trim());
+  console.log(typeof message.value.trim());
+  const userid = localStorage.getItem("userId");
+  if (userid !== null && userid !== "") {
+    const parsedUserId = parseInt(userid, 10);
+    if (isNaN(parsedUserId)) {
+      console.error("UserId is not a valid integer");
+    } else {
+      // use parsedUserId
+    }
+  } else {
+    console.error("UserId is not stored in localStorage");
+  }
+
   if (!message.value.trim()) return; // 忽略空格或空留言
   try {
     const response = await fetch('http://127.0.0.1:8081/commentBoard', {
@@ -108,22 +121,32 @@ const sendMessage = async () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ message: message.value })
-    })
+      body: JSON.stringify({
+        UserId: parseInt(userid),
+        Content: message.value.trim(),
+      }),
+    });
+    console.log(typeof (parseInt(userid)));
+    console.log(parseInt(userid));
     const data = await response.json()
+    // 添加到 messages 数组
     messages.value.push(data.data.Content)
+    // 添加到 displayMessages 数组
     displayMessages.value.push({
       text: message.value,
       top: randomPosition('top'),
       left: randomPosition('left')
     })
+    // 设置发送状态
     sendingIndex.value = displayMessages.value.length - 1;
+    // 清空输入框
     message.value = '';
+    // 1秒后取消发送状态
     setTimeout(() => {
-      sendingIndex.value = -1; // 1秒后取消发送状态
+      sendingIndex.value = -1;
     }, 1000);
   } catch (error) {
-    console.error(error)
+    console.error('发送留言失败:', error)
   }
 }
 
@@ -141,89 +164,89 @@ onUnmounted(() => {
 
 <style scoped>
 .message-board {
-    position: relative;
-    height: 100vh;
-    overflow: hidden;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .send-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 5px;
-    background-color: #f0f0f02d;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    z-index: 1;
-    width: 300px;
-    height: 40px;
-    display:flex;
-    flex-direction: row;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5px;
+  background-color: #f0f0f02d;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  z-index: 1;
+  width: 300px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
 }
 
 .send-box input {
-    width: 80%;
-    height: 20px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+  width: 80%;
+  height: 20px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
 }
 
 .send-box button {
-    width: 20%;
-    height: 30px;
-    background-color: #38cde400;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
+  width: 20%;
+  height: 30px;
+  background-color: #38cde400;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
-.icon-send-line{
-    font-size:30px !important;
-    color:black !important;
+.icon-send-line {
+  font-size: 30px !important;
+  color: black !important;
 }
 
 .message-list {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 }
 
 .message-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .message-list li {
-    position: absolute;
-    padding: 10px;
-    font-size: 20px;
-    background-color: #ffffff5f;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: all 1s;
-    font-family: cursive;
+  position: absolute;
+  padding: 10px;
+  font-size: 20px;
+  background-color: #ffffff5f;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 1s;
+  font-family: cursive;
 }
 
 .message-list li.sending {
-    animation: fadeIn 1s;
+  animation: fadeIn 1s;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.5);
-    }
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
 
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 </style>
