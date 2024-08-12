@@ -9,29 +9,31 @@
                 </div>
             </div>
         </div>
-        <div class="articles">                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-            <div class="article-category" v-for="(category, index) in categories" :key="'category-' + category.Id">
-                <h2 :id="'category-' + index">{{ category.Name }}</h2>
-                <div class="articles-list">
-                    <article class="article" v-for="article in category.Articles" :key="article.Id">
-                        <div class="article-content">
-                            <img :src="'../Public/Pictures/' + article.Img" alt="文章图片丢失了!" id="Aimg">
-                            <span class="article-name">{{ article.Title }}</span>
-                        </div>
-                    </article>
-                </div>
-            </div>
+        <div class="articles">
+  <div class="article-category" v-for="(category, index) in categories" :key="'category-' + category.Id">
+    <h2 :id="'category-' + index">{{ category.Name }}</h2>
+    <div class="articles-list">
+      <article class="article" v-for="(article, index) in category.Articles" :key="article.Id">
+        <div class="article-content">
+          <img @click="getArticleContent(article.Id)" :src="'../Public/Pictures/' + article.Img" alt="文章图片丢失了!" id="Aimg">
+          <span class="article-name">{{ article.Title }}</span>
         </div>
+      </article>
+    </div>
+  </div>
+</div>
     </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 import { ref, onMounted } from 'vue';
 
 const categories = ref([]);
 
 // 获取分类和文章数据
-// 在fetchCategories函数中添加文章数量统计
 const fetchCategories = async () => {
     try {
         const response = await fetch('http://127.0.0.1:8081/categories-with-articles');
@@ -52,13 +54,11 @@ const fetchCategories = async () => {
     }
 };
 
-// 添加一个函数来获取存储的文章数量统计
 const getArticleCounts = () => {
     const articleCounts = localStorage.getItem('articleCounts');
     return articleCounts ? JSON.parse(articleCounts) : {};
 };
 
-// 滚动到特定分类的方法
 const scrollToCategory = (index) => {
     const categoryElement = document.getElementById(`category-${index}`);
     if (categoryElement) {
@@ -68,13 +68,12 @@ const scrollToCategory = (index) => {
     }
 };
 
-// 跳转到文章页面的方法
-const goToArticlePage = (categoryId) => {
-    // 假设文章页面的URL格式为 `/article/${categoryId}`
-    window.location.href = `/article/${categoryId}`;
+// 跳转到文章页面
+const getArticleContent = (articleId) => {
+    localStorage.setItem("articleId", articleId);
+    router.push({ path: '/articleContent' });
 };
 
-// 在组件挂载时获取数据
 onMounted(() => {
     fetchCategories();
 });
@@ -84,20 +83,28 @@ onMounted(() => {
 <style>
 #Content {
     display: flex;
-    width: 70vw;
-    height: 100vh;
+    width: 100vw;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: auto auto;
+    grid-template-columns: repeat(13, 1fr);
 }
 
 .sidebar {
-    width: 20%;
-    /* 或固定宽度，如200px */
+    width: 100%;
     padding: 20px;
     box-sizing: border-box;
-    grid-column: 1/8;
+    grid-column: 1/4;
+    height: 88.5vh;
 }
+
+.articles {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+    grid-column: 4/13;
+}
+
 
 .category {
     cursor: pointer;
@@ -108,79 +115,93 @@ onMounted(() => {
 
 .category img {
     width: 100%;
-    height: auto;
+    height: 18vh;
     display: block;
     margin-bottom: 5px;
 }
 
 .category-content {
     position: relative;
-    /* 添加相对定位 */
+    transition: all 0.3s ease-in-out;
 }
+.category-content {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
 
 .category-name {
     position: absolute;
-    /* 绝对定位 */
     bottom: 0;
-    /* 定位在图片底部 */
     left: 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* 半透明背景 */
     color: white;
-    /* 文字颜色 */
     text-align: center;
     padding: 5px 0;
-    /* 上下内边距 */
-}
-
-
-.articles {
-    width: 100%;
-    /* 或剩余空间 */
-    overflow-y: auto;
-    padding: 20px;
-    box-sizing: border-box;
-    grid-column: 8/13;
 }
 
 .article-category {
     margin-bottom: 40px;
 }
 
+
+
 .article-category h2 {
     margin-top: 0;
 }
 
-.article {
+.article-row {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
+}
+.articles-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.article {
+  width: 45%;
+  margin: 10px;
 }
 
 .article-content {
-    position: relative;
-    /* 添加相对定位 */
+  position: relative;
+  border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease-in-out;
+}
+.article-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.article-content img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: auto; /* Add this */
 }
 
 .article-name {
-    position: absolute;
-    /* 绝对定位 */
-    bottom: 0;
-    /* 定位在图片底部 */
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* 半透明背景 */
-    color: white;
-    /* 文字颜色 */
-    text-align: center;
-    padding: 5px 0;
-    /* 上下内边距 */
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
 }
 
-#Aimg {
+/* #Aimg {
     width: 300px;
     height: 300px;
-}
+} */
 
 /* 确保滚动条在视高固定的情况下不会导致内容区域溢出 */
 .Content,

@@ -1,32 +1,35 @@
 <template>
-    <div class="search-container" :style="{ background: searchBackground }">
-        <div class="search-overlay" @click="closeSearch" />
-        <div :class="['search-form-container', isFocused ? 'search-form-container-focused' : '']">
+    <div class="search-container" :style="{ background: searchBackground }" >
+        <div class="search-overlay" tabindex="0" @click="removeDarkBackground"/>
+        <div :class="['search-form-container', isFocused ? 'search-form-container-focused' : '']" >
             <form @submit.prevent="performSearch">
                 <div class="search-item">
                     <input type="text" placeholder="搜索文章..." v-model="searchQuery" ref="searchInput"
-                        @blur="removeDarkBackground" @focus="restoreDarkBackground" />
+                    @focus="restoreDarkBackground" />
                     <button @mousedown.prevent type="submit"><i class="iconfont icon-sousuo"></i></button>
                 </div>
             </form>
             <br>
+            <!-- " @click="removeDarkBackground"  :class="['search-form-container', isFocused ? 'search-form-container-focused' : '']"   @blur="removeDarkBackground" -->
             <div v-if="searchResultVisible">
                 <div v-if="titles.length === 0 && contents.length === 0" class="send">
                     <p>什么都没查询到捏 QAQ </p>
                     <p>想看相关内容? 点击导航栏"反馈"! </p>
-                    <router-link :to="{ path: '/back' }"><button class="send" @click.prevent="removeDarkBackgroundSecond($router)">点我私信作者</button></router-link>
+                    <router-link :to="{ path: '/feedback' }"><button class="send"
+                            @click.prevent="removeDarkBackgroundSecond()">点我私信作者</button>
+                    </router-link>
                 </div>
-                <div v-else class="result" v-if="searchResultVisible">
+                <div v-else class="result">
                     <h3>标题搜索结果</h3>
                     <ul v-for="title in titles" :key="title.Id">
-                        <li> 
+                        <li @click="getArticleContent(title.Id)">
                             {{ title.Title }}
                         </li>
                     </ul>
                     <br>
                     <h3>内容搜索结果</h3>
                     <ul v-for="content in contents" :key="content.Id">
-                        <li>
+                        <li @click="getArticleContent(content.Id)">
                             {{ content.Title }}
                         </li>
                     </ul>
@@ -37,9 +40,22 @@
 </template>
 
 <script setup>
+
+import Feedback from './Feedback.vue'
+import ArticleContent from './ArticleContent.vue'
 import { ref, onMounted } from 'vue'
+
 import { useRouter } from 'vue-router'
-const $router = useRouter()
+const router = useRouter()
+
+// import { createRouter, createWebHistory } from 'vue-router'
+// const router = createRouter({
+//     history: createWebHistory(),
+//     routes: [
+//         { path: '/articleContent', component: ArticleContent },
+//         // 其他路由配置...
+//     ],
+// })
 
 const searchInput = ref(null)
 const searchQuery = ref('')
@@ -53,10 +69,6 @@ onMounted(() => {
     searchInput.value.focus()
 })
 
-const closeSearch = () => {
-    // emit close-search event
-}
-
 const removeDarkBackground = () => {
     searchBackground.value = 'transparent'
     searchPosition.value = 'relative'
@@ -65,15 +77,15 @@ const removeDarkBackground = () => {
     searchResultVisible.value = false
 }
 
-const removeDarkBackgroundSecond = ($router) => {
+const removeDarkBackgroundSecond = ( ) => {
     searchBackground.value = 'transparent'
     searchPosition.value = 'relative'
     searchHeight.value = '88.5vh'
     isFocused.value = false
     searchResultVisible.value = false
     if (confirm('即将跳转界面')) {
-    $router.push({ path: '/back' })
-  }
+        router.push({ path: '/feedback' })
+    }
 }
 
 const restoreDarkBackground = () => {
@@ -116,6 +128,12 @@ const performSearch = async () => {
         console.error(error);
     }
 }
+
+//获取文章id
+const getArticleContent = (articleId) => {
+    localStorage.setItem("articleId", articleId);
+    router.push({ path: '/articleContent' });
+};
 </script>
 
 <style scoped>
@@ -140,8 +158,6 @@ const performSearch = async () => {
     height: 100%;
     background-color: transparent;
     z-index: -10;
-    pointer-events: none;
-    /* add this line */
 }
 
 .search-form-container {
@@ -161,6 +177,7 @@ const performSearch = async () => {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     gap: 0;
+    overflow: auto;
 }
 
 .search-item {

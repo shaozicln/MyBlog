@@ -19,12 +19,15 @@
                 </div>
             </div>
             <div class="bottom">
-                <h3>友链申请</h3>
-                <input v-model="applicationForm.websiteName" type="text" placeholder="网站名称">
-                <input v-model="applicationForm.websiteUrl" type="text" placeholder="请输入网址">
-                <input v-model="applicationForm.websiteDescription" type="text" placeholder="来一句网站介绍">
-                <input v-model="applicationForm.image" type="text" placeholder="来一张图片展示">
-                <button @click="createApplication" class="button">提交</button>
+                <h3>友链申请</h3><br>
+                <div>
+                    <input v-model="applicationForm.websiteName" type="text" placeholder="网站名称">
+                    <input v-model="applicationForm.websiteUrl" type="text" placeholder="请输入网址">
+                    <input v-model="applicationForm.websiteDescription" type="text" placeholder="来一句网站介绍">
+                    <input v-model="applicationForm.image" type="text" placeholder="来一张图片展示">
+                    <br>
+                    <button @click="createApplication" class="button">提交</button>
+                </div>
             </div>
         </div>
     </div>
@@ -140,6 +143,7 @@ const createApplication = async () => {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 20px;
     font-size: 20px;
 }
 

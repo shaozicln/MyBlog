@@ -99,6 +99,7 @@ func main() {
 		fmt.Printf("error:%v", err)
 		return
 	}
+
 	r := gin.Default()
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{"*"}
@@ -153,7 +154,7 @@ func main() {
 		var article Article
 		if err := c.ShouldBindJSON(&article); err == nil {
 			db.Create(&article)
-			c.JSON(http.StatusCreated, gin.H{"data": article})
+			c.JSON(200, gin.H{"data": article})
 		} else {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
@@ -206,7 +207,7 @@ func main() {
 		var category Category
 		if err := c.ShouldBindJSON(&category); err == nil {
 			db.Create(&category)
-			c.JSON(http.StatusCreated, gin.H{"data": category})
+			c.JSON(200, gin.H{"data": category})
 		} else {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}

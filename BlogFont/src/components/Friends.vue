@@ -21,17 +21,6 @@
             <h3>有个的网站做得不错, 想放个友链 ?</h3>
             <router-link :to="{ path: '/feedback' }"><button @click="send()">点我联系作者发送友链</button></router-link>
         </div>
-        <!-- <div v-if="sendVisible" class="send-container">
-            <div class="send-overlay" @click="closeSend" />
-            <div class="send-form-container" @click.stop>
-                <form @submit.prevent="performSend">
-                    <div class="send-item">
-                        <input type="text" placeholder="请输入您的网站..." v-model="sendQuery" ref="sendInput" />
-                        <button @mousedown.prevent type="submit"><i class="iconfont icon-sousuo"></i></button>
-                    </div>
-                </form>
-            </div>
-        </div> -->
     </div>
 </template>
 

@@ -11,6 +11,9 @@
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
 import { ref } from 'vue'
 
 const activeIndex = ref(0)
@@ -44,7 +47,8 @@ const navItems = [
 }
 
 .nav-bar {
-    background-color: rgba(160, 191, 228, 0.566);
+    /* background-color: rgba(160, 191, 228, 0.566); */
+    background-color: rgba(255, 255, 255, 0.5);
     color: #000000;
     padding: 1em;
     text-align: center;
